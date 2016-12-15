@@ -6,5 +6,23 @@
 </head>
 <body>
 <h3>Use developer console to test _z.dom()</h3>
+    <a id="downloadlink" href="#"><h2>doc</h2></a>
+    <script>
+    var dl = [{ "First Name": "Brian", "Last Name": "Brake", "Phone Number": "1234567" }, { "First Name": "Dave", "Last Name": "Hammer", "Phone Number": "2341567" }];
+
+    var wb = _z.dom("ss:Workbook`xmlns:ss=urn:schemas-microsoft-com:office:spreadsheet>ss:Styles>ss:Style`ss:ID=1>ss:Font`ss:Bold=1+++ss:Worksheet`ss:Name=Sheet1>ss:Table>ss:Column`ss:Width=80*3");
+    wb.lastChild.firstChild.appendChild(_z.dom("ss:Row`ss:StyleID=1>ss:Cell>ss:Data`ss:Type=String;0++ss:Cell>ss:Data`ss:Type=String;1++ss:Cell>ss:Data`ss:Type=String;2", Object.keys(dl[0])));
+    dl.forEach(function (x) {
+        var values = Object.keys(x).map(function (y) { return x[y] });
+        wb.lastChild.firstChild.appendChild(_z.dom("ss:Row>ss:Cell>ss:Data`ss:Type=String;0++ss:Cell>ss:Data`ss:Type=String;1++ss:Cell>ss:Data`ss:Type=String;2", values));
+    });
+
+    var ser = new XMLSerializer();
+    var str = '<?xml version="1.0" encoding="UTF-8" ?>\n' + ser.serializeToString(wb);
+    str = str.replace(/ xmlns:ss="ss"/g, "");
+    var blo = new Blob([str], { type: "text/xml;charset=utf-8" });
+    downloadlink.href = URL.createObjectURL(blo);
+    downloadlink.download = "Test.xml";
+    </script>
 </body>
 </html>
