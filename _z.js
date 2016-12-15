@@ -1,10 +1,8 @@
-﻿/*
-    modern utility code for non AEM forms etc
-    Ian Sayer - November 2015
+/*
+    utility code for selector based dom creation
+    Ian Sayer - November 2015, December 2016
 
-          _z.dom() - bare minimum zencoding => dom element creation. Used by contact badge code
-    _z.insertUpi() - Uses JSONP to lookup details from directory and insert a wee badge
-    _z.buildForm() - create markup for a form based on table of panels>fields
+          _z.dom() - bare minimum zencoding => dom element creation
 */
 var _z = (function ()
 {
@@ -21,19 +19,20 @@ var _z = (function ()
         var curlev = retval;
         for (var i = 0, f; f = fr[i]; i++)
         {
-            var ename, p, sub = f.match(/(\W*[\w| |\-|\\|=)]+)/g);
+            var ename, p, sub = f.match(/(\W*[\w| |\-|\\|=)|:]+)/g);
             ename = sub[0];
             while (ename.charAt(0) == '+')
             {
                 ename = ename.substr(1);
-                curlev = curlev.parentElement;
+                curlev = curlev.parentNode;
             }
             curlev = curlev || retval; // documentFragment if at top
             if (ename.charAt(0) == '>')
             {
                 ename = ename.substr(1);
             }
-            p = document.createElement(ename);
+            var ena = ename.split(":");
+            p = (ena.length > 1) ? document.createElementNS(ena[0],ename) : document.createElement(ename);
             var classes = [];
             for (var j = 1, s = sub[0].substr(1); (j < sub.length) && (s = sub[j]) ; j++)
             {
@@ -45,7 +44,7 @@ var _z = (function ()
                     case '#':
                         p.id = s.substr(1);
                         break;
-                    case ':':
+                    case '`':
                         var tmp = s.split("=");
                         if (tmp.length > 1)
                             p.setAttribute(tmp[0].substr(1), tmp[1]);
@@ -63,7 +62,7 @@ var _z = (function ()
                         }
                         else
                         {
-                            p.innerHTML = o;
+                            p.textContent = o; //p.innerHTML = o;
                         }
                         break;
                 }
@@ -81,12 +80,12 @@ var _z = (function ()
                     while (s[0] == "p")
                     {
                         s = s.substr(1);
-                        p = curlev = curlev.parentElement;
+                        p = curlev = curlev.parentNode;
                     }
                     var qty = parseInt(s);
                     for (j = 1; j < qty; j++)
                     {
-                        p = curlev.parentElement.appendChild(p.cloneNode(true));
+                        p = curlev.parentNode.appendChild(p.cloneNode(true));
                     }
                     s = s.substr(Math.floor(Math.log10(qty) + 1));
                 }
@@ -192,7 +191,9 @@ var _z = (function ()
         return cameled;
     }
 
-
+    // polyfill for IE Math.log10
+    if (!Math.log10)
+        Math.log10 = function (x) { return Math.log(x) / Math.LN10 };
 
     return {
         dom: dom,
