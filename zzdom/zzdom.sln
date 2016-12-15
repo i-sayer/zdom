@@ -21,6 +21,7 @@ Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "zdom3", "..\", "{084940B9-5
 		Release.AspNetCompiler.FixedNames = "false"
 		Release.AspNetCompiler.Debug = "False"
 		VWDPort = "58262"
+		SlnRelativePath = "..\..\zdom3\"
 	EndProjectSection
 EndProject
 Global
