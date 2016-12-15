@@ -113,6 +113,8 @@ var _z = (function ()
         var kk = {};
         a.forEach(function (x)
         {
+            if (x.type != CSSRule.STYLE_RULE)
+                return;
             var im = {};
             var s = x.style.cssText.split(";");
             s.forEach(function (y)  {
