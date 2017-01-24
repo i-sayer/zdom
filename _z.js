@@ -1,6 +1,7 @@
 /*
     utility code for selector based dom creation
     Ian Sayer - November 2015, December 2016
+    add xml ns compat
 
           _z.dom() - bare minimum zencoding => dom element creation
 */
