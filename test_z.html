@@ -4,12 +4,14 @@
     <title>_z test</title>
     <script src="/_z.js"></script>
     <link rel="stylesheet" href="grid.css" />
+    <style>body {font-family:sans-serif;margin:0}</style>
 </head>
-<body>
-<h3>Use developer console to test _z.dom()</h3>
-    <a id="downloadlink" href="#"><h2>doc</h2></a>
+<body data-title="zdom test page" class="oldskool">
     <script>
-    var dl = [{ "First Name": "Brian", "Last Name": "Brake", "Phone Number": "1234567" }, { "First Name": "Dave", "Last Name": "Hammer", "Phone Number": "2341567" }];
+        var frm = document.body.appendChild(_z.dom("div.container>div.row>section.col-md-6>h3^section one++section.col-md-6>h3^another section"));
+        frm.lastChild.firstChild.appendChild(_z.dom("p;0", ["You can use the developer console to test _z.dom()"]));
+        frm.lastChild.lastChild.appendChild(_z.dom("p.centered>a#downloadlink^href=#>h2^Document"));
+        var dl = [{ "First Name": "Brian", "Last Name": "Brake", "Phone Number": "1234567" }, { "First Name": "Dave", "Last Name": "Hammer", "Phone Number": "2341567" }];
 
     var wb = _z.dom("ss:Workbook^xmlns:ss=urn:schemas-microsoft-com:office:spreadsheet>ss:Styles>ss:Style^ss:ID=1>ss:Font^ss:Bold=1+++ss:Worksheet^ss:Name=Sheet1>ss:Table>ss:Column^ss:Width=80*3");
     wb.lastChild.firstChild.appendChild(_z.dom("ss:Row^ss:StyleID=1>ss:Cell>ss:Data^ss:Type=String;0++ss:Cell>ss:Data^ss:Type=String;1++ss:Cell>ss:Data^ss:Type=String;2", Object.keys(dl[0])));
