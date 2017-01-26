@@ -271,12 +271,13 @@ body[data-title]::before {
     line-height: 2em;
     display: block;
     text-align: left;
-    color: #00467c;
+    color: #f1f1f1;
     margin-bottom: 0.5em;
-    background: url(images/logo2015black.png) no-repeat left, #f2f2f2;
-    background-size: 186px;
-    padding-left: 195px;
-    background-position: 4px;
+    background: url(images/UoANewMed.png) no-repeat left, #f2f2f2;
+    background-size: 180px;
+    padding-left: 208px;
+    background-position: 12px;
+    background-color:#00467c;
     box-shadow: 0 0 0.5em black;
     z-index: 99;
     opacity:0.9;
