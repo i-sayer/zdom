@@ -67,7 +67,7 @@
 
     var ser = new XMLSerializer();
     var xstr = '<?xml version="1.0" encoding="UTF-8" ?>\n' + ser.serializeToString(wb);
-    xstr = str.replace(/ xmlns:ss="ss"/g, "");
+    xstr = xstr.replace(/ xmlns:ss="ss"/g, "");
     var blo = new Blob([xstr], { type: "text/xml;charset=utf-8" });
     downloadlink.href = URL.createObjectURL(blo);
     downloadlink.download = "Test.xml";
