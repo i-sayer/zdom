@@ -5,7 +5,7 @@
     <script src="_z.js"></script>
     <link rel="stylesheet" href="grid.css" />
     <style>
-    @import url("https://fonts.googleapis.com/css?family=Roboto-Condensed:500");
+    @import url("https://fonts.googleapis.com/css?family=Roboto+Condensed");
     body {
         font-family:'Roboto Condensed', sans-serif;
         margin:0
@@ -23,14 +23,39 @@
     text-transform: uppercase;
     text-shadow: 0 1px 0 #ccc, 0 2px 0 #c9c9c9, 0 3px 0 #bbb, 0 4px 0 #b9b9b9, 0 5px 0 #aaa, 0 6px 1px rgba(0, 0, 0, 0.1), 0 0px 5px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.3), 0 3px 5px rgba(0, 0, 0, 0.2), 0 5px 10px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.2), 0 20px 20px rgba(0, 0, 0, 0.15);
     }
+        a {
+            color: #00467c;
+        }
     </style>
 </head>
 <body data-title="zdom test page" class="oldskool">
     <script>
-        var frm = document.body.appendChild(_z.dom("h1^zdom"));
-        var frm = document.body.appendChild(_z.dom("div.container>div.row>section.col-md-6>h3^section one++section.col-md-6>h3^another section"));
-        frm.lastChild.firstChild.appendChild(_z.dom("p;0", ["You can use the developer console to test _z.dom()"]));
-        frm.lastChild.lastChild.appendChild(_z.dom("p.centered>a#downloadlink^href=#>h2^Document"));
+        //body#gfd>div.container>div.row>section.col-md-4*3p2
+        // very simple pretty print for markup
+        function tabify(level) {
+            return String.fromCharCode(160).repeat(level * 4);
+        }
+        function prettyquick(str) {
+            var level = 0, out = [];
+            str.slice(1, -1).split("><").forEach(function (sec, i, arr) {
+                out.push(tabify(level - ((sec[0] == '/')?1:0)) + "<" + sec);
+                level++;
+                if (sec[0] == '/')
+                    level-=2;
+            });
+            return out.join(">\n");
+        }
+
+        document.body.appendChild(_z.dom("h1^zdom"));
+        var frm = document.body.appendChild(_z.dom("div.container>div.row>section.col-md-6>h3^About++section.col-md-6>h3^Sample xml workbook link"));
+        frm.lastChild.firstChild.appendChild(_z.dom("p^Type your selector text and press Evaluate>hr+textarea.col-md-max#selectorText+button#evalButton^Evaluate"));
+        frm.lastChild.lastChild.appendChild(_z.dom("p.centered>a#downloadlink^href=#>span.icon-download"));
+        var selectorText = document.getElementById("selectorText");
+        selectorText.focus();
+        document.getElementById("evalButton").onclick = function (e) {
+            alert(prettyquick(_z.dom2str(selectorText.value)));
+        };
+
         var dl = [{ "First Name": "Brian", "Last Name": "Brake", "Phone Number": "1234567" }, { "First Name": "Dave", "Last Name": "Hammer", "Phone Number": "2341567" }];
 
     var wb = _z.dom("ss:Workbook^xmlns:ss=urn:schemas-microsoft-com:office:spreadsheet>ss:Styles>ss:Style^ss:ID=1>ss:Font^ss:Bold=1+++ss:Worksheet^ss:Name=Sheet1>ss:Table>ss:Column^ss:Width=80*3");
@@ -41,9 +66,9 @@
     });
 
     var ser = new XMLSerializer();
-    var str = '<?xml version="1.0" encoding="UTF-8" ?>\n' + ser.serializeToString(wb);
-    str = str.replace(/ xmlns:ss="ss"/g, "");
-    var blo = new Blob([str], { type: "text/xml;charset=utf-8" });
+    var xstr = '<?xml version="1.0" encoding="UTF-8" ?>\n' + ser.serializeToString(wb);
+    xstr = str.replace(/ xmlns:ss="ss"/g, "");
+    var blo = new Blob([xstr], { type: "text/xml;charset=utf-8" });
     downloadlink.href = URL.createObjectURL(blo);
     downloadlink.download = "Test.xml";
     </script>

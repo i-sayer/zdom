@@ -151,6 +151,15 @@ div.col-md-3:nth-child(3) {
     .col-md-9 {
         width: calc( 75% - 15px);
     }
+    .col-md-10 {
+        width: calc( 83.3333% - 15px);
+    }
+    .col-md-11 {
+        width: calc( 91.6666% - 15px);
+    }
+    .col-md-max {
+        width: calc( 96.6666% - 15px);
+    }
     .row div:nth-child(3)::before {
         content: "";
         display:inline-block;

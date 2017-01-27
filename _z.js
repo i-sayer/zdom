@@ -100,7 +100,7 @@ var _z = (function ()
 */
     var dom2str = function (str, formatitems)
     {
-        return (dom(str, formatitems)).outerHTML;
+        return (dom(str, formatitems).outerHTML);
     }
 
 /**
