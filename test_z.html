@@ -3,6 +3,8 @@
 <head>
     <title>_z test</title>
     <script src="_z.js"></script>
+    <script>window.MathJax = { MathML: { extensions: ["mml3.js", "content-mathml.js"]}};</script>
+    <script type="text/javascript" async src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=MML_HTMLorMML"></script>
     <link rel="stylesheet" href="grid.css" />
     <style>
     @import url("https://fonts.googleapis.com/css?family=Roboto+Condensed");
@@ -15,43 +17,107 @@
     }
 
     h1 {
-    font: 700 13vw/1.1 'Roboto Condensed', sans-serif;
     color: white;
     text-align: center;
-    line-height:1.1em;
+    line-height:10vw;
+    font-size:10vw;
     margin:0;
+    display:inline-block;
+    vertical-align:middle;
+    width:100%;
     text-transform: uppercase;
     text-shadow: 0 1px 0 #ccc, 0 2px 0 #c9c9c9, 0 3px 0 #bbb, 0 4px 0 #b9b9b9, 0 5px 0 #aaa, 0 6px 1px rgba(0, 0, 0, 0.1), 0 0px 5px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.3), 0 3px 5px rgba(0, 0, 0, 0.2), 0 5px 10px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.2), 0 20px 20px rgba(0, 0, 0, 0.15);
     }
         a {
             color: #00467c;
         }
+        math {
+            font-size:300%;
+            color:blue;
+        }
+        .wrapp {
+            position:relative;
+            width:28vw;
+            height:26.2vw;
+            margin:0 auto;
+            vertical-align:middle;
+        }
+        .wrapp:before {
+            content: '';
+            display: inline-block;
+            height: 100%;
+            vertical-align: middle;
+            margin-right: -0.25em; /* Adjusts for spacing */
+        }
+        .wrapp img {
+            position:absolute;
+            width:52%;
+        }
+        .wrapp img:nth-child(1) {
+            animation:conv-1 3s 1 ease-in forwards;
+            left:0;
+            top:0;
+        }
+        .wrapp img:nth-child(2) {
+            animation:conv-2 3s 1 ease-in forwards;
+            right:0;
+            top:0;
+        }
+        .wrapp img:nth-child(3) {
+            animation:conv-3 3s 1 ease-in forwards;
+            left:24%;
+            top:0;
+        }
+        @keyframes conv-1 {
+            0% {transform: translate(0,0)}
+            50% {transform: translate(20%,20%)}
+            100% {transform: translate(20%,20%)}
+        }
+        @keyframes conv-2 {
+            0% {transform: translate(0,0)}
+            50% {transform: translate(-20%,20%)}
+            100% {transform: translate(-20%,20%)}
+        }
+        @keyframes conv-3 {
+            0% {transform: translate(0,80%)}
+            50% {transform: translate(0,70%)}
+            100% {transform: translate(0,70%)}
+        }
     </style>
 </head>
 <body data-title="zdom test page" class="oldskool">
+    <div class="wrapp">
+        <img src="images/d1.png">
+        <img src="images/d2.png">
+        <img src="images/d3.png">
+    </div>
     <script>
-        //body#gfd>div.container>div.row>section.col-md-4*3p2
         // very simple pretty print for markup
         function tabify(level) {
-            return String.fromCharCode(160).repeat(level * 4);
+            return (level <= 0)?"":String.fromCharCode(160).repeat(level * 4);
         }
         function prettyquick(str) {
             var level = 0, out = [];
-            str.slice(1, -1).split("><").forEach(function (sec, i, arr) {
+            str.slice(1).split("><").forEach(function (sec, i, arr) {
                 out.push(tabify(level - ((sec[0] == '/')?1:0)) + "<" + sec);
                 level++;
+                if (sec.indexOf("</") >= 0)
+                    --level;
                 if (sec[0] == '/')
                     level-=2;
             });
-            return out.join(">\n");
+            return out.join(">\n").replace(/<([a-z][a-z]*)\b[^>]*>\s*<\/\1>/g, '<$1/>');
         }
 
-        document.body.appendChild(_z.dom("h1^zdom"));
-        var frm = document.body.appendChild(_z.dom("div.container>div.row>section.col-md-6>h3^About++section.col-md-6>h3^Sample xml workbook link"));
+        document.querySelector("div.wrapp").appendChild(_z.dom("h1^zdom"));
+        var frm = document.body.appendChild(_z.dom("div.container>div.row>section.col-md-6>h3^About++div.col-md-6>section>h3^xml workbook link"));
         frm.lastChild.firstChild.appendChild(_z.dom("p^Type your selector text and press Evaluate>hr+textarea.col-md-max#selectorText+button#evalButton^Evaluate"));
-        frm.lastChild.lastChild.appendChild(_z.dom("p.centered>a#downloadlink^href=#>span.icon-download"));
+        frm.lastChild.lastChild.firstChild.appendChild(_z.dom("p.centered>a#downloadlink^href=#>span.icon-download"));
+        frm.lastChild.lastChild.appendChild(_z.dom("section>h3^MathML+p#formulaBox"));
         var selectorText = document.getElementById("selectorText");
         selectorText.focus();
+        //document.getElementById("formulaBox").appendChild(_z.dom("math>apply>in+cn^type=complex-cartesian^17<sep^29+complexes"));
+        document.getElementById("formulaBox").appendChild(_z.dom("math>mrow>apply>eq+ci^A+matrix>matrixrow>ci^x+ci^y++matrixrow>ci^z+ci^w"));
         document.getElementById("evalButton").onclick = function (e) {
             alert(prettyquick(_z.dom2str(selectorText.value)));
         };

@@ -45,12 +45,16 @@ var _z = (function ()
                     case '#':
                         p.id = s.substr(1);
                         break;
+                    case '<':
+                        p.appendChild(document.createElement(s.substr(1)));
+                        break;
                     case '^':
                         var tmp = s.split("=");
                         if (tmp.length > 1)
                             p.setAttribute(tmp[0].substr(1), tmp[1]);
                         else
-                            p.textContent = s.substr(1);
+                            //p.textContent = s.substr(1);
+                            p.appendChild(document.createTextNode(s.substr(1)));
                         break;
                     case ';':
                         var o = formatitems[s.substr(1)];
