@@ -110,18 +110,31 @@
         }
 
         document.querySelector("div.wrapp").appendChild(_z.dom("h1^zdom"));
-        var frm = document.body.appendChild(_z.dom("div.container>div.row>section.col-md-6>h3^About++div.col-md-6>section>h3^xml workbook link"));
-        frm.lastChild.firstChild.appendChild(_z.dom("p^Type your selector text and press Evaluate>hr+textarea.col-md-max#selectorText+button#evalButton^Evaluate"));
+        var frm = document.body.appendChild(_z.dom("div#eon.container>div.row>section.col-md-6>h3^About++div.col-md-6>section>h3^xml workbook link"));
+        frm.lastChild.firstChild.appendChild(_z.dom("p^Type your selector text and press Evaluate>hr+select#examples>option^examples++textarea.col-md-max#selectorText+button#evalButton^Evaluate"));
         frm.lastChild.lastChild.firstChild.appendChild(_z.dom("p.centered>a#downloadlink^href=#>span.icon-download"));
         frm.lastChild.lastChild.appendChild(_z.dom("section>h3^MathML+p#formulaBox"));
         var selectorText = document.getElementById("selectorText");
         selectorText.focus();
+        [
+            { n: "mathMl 1", v: "math>mrow>mfrac>mrow>mi^x+mo&2b+msup>mi^y+mn^2+++mrow>mi^k+mo&2b+mn^1" },
+            { n: "table", v: "table#mytable>thead>tr>th^heading*3+++tbody>tr>td^text*3p5" }
+        ].forEach(function (x) {
+            examples.add(_z.dom("option;0;1", [x.n, { value: x.v }]));
+        });
+        examples.onchange = function (e) {
+            selectorText.value = this.options[this.selectedIndex].value;
+        }
         //document.getElementById("formulaBox").appendChild(_z.dom("math>apply>in+cn^type=complex-cartesian^17<sep^29+complexes"));
         document.getElementById("formulaBox").appendChild(_z.dom("math>mrow>apply>eq+ci^A+matrix>matrixrow>ci^x+ci^y++matrixrow>ci^z+ci^w"));
         document.getElementById("evalButton").onclick = function (e) {
-            alert(prettyquick(_z.dom2str(selectorText.value)));
+            //alert(prettyquick(_z.dom2str(selectorText.value)));
+            domResult.innerHTML = "";
+            domResult.appendChild(_z.dom(selectorText.value));
+            textResult.textContent = prettyquick(_z.dom2str(selectorText.value));
+            MathJax.Hub.Queue(["Typeset", MathJax.Hub, domResult]);
         };
-
+        eon.appendChild(_z.dom("div.row>section.col-md-12>h3^Evaluated result+pre#textResult+div#domResult"));
         var dl = [{ "First Name": "Brian", "Last Name": "Brake", "Phone Number": "1234567" }, { "First Name": "Dave", "Last Name": "Hammer", "Phone Number": "2341567" }];
 
     var wb = _z.dom("ss:Workbook^xmlns:ss=urn:schemas-microsoft-com:office:spreadsheet>ss:Styles>ss:Style^ss:ID=1>ss:Font^ss:Bold=1+++ss:Worksheet^ss:Name=Sheet1>ss:Table>ss:Column^ss:Width=80*3");

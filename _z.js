@@ -48,6 +48,9 @@ var _z = (function ()
                     case '<':
                         p.appendChild(document.createElement(s.substr(1)));
                         break;
+                    case '&':
+                        p.appendChild(document.createTextNode(String.fromCharCode(parseInt(s.substr(1),16))));
+                        break;
                     case '^':
                         var tmp = s.split("=");
                         if (tmp.length > 1)
