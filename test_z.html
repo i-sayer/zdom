@@ -118,6 +118,8 @@
         selectorText.focus();
         [
             { n: "mathMl 1", v: "math>mrow>mfrac>mrow>mi^x+mo&2b+msup>mi^y+mn^2+++mrow>mi^k+mo&2b+mn^1" },
+            { n: "mathMl 2", v: "math>mover^accent=true>mrow>mi^x+mo&2b+mi^y+mo&2b+mi^z++mo&23de" },
+            { n: "a menu", v:"ul#leftnav>li.menuItem>a^href= ^target=_blank^Menu Item*p4"},
             { n: "table", v: "table#mytable>thead>tr>th^heading*3+++tbody>tr>td^text*3p5" }
         ].forEach(function (x) {
             examples.add(_z.dom("option;0;1", [x.n, { value: x.v }]));

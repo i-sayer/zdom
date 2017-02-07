@@ -1,0 +1,44 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>Caliph</title>
+	<meta charset="utf-8" />
+    <style>
+    html, body {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 100%;
+        margin: 0;
+    }
+    </style>
+</head>
+<body>
+<script>
+    var svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg'),
+            size = Math.min(window.innerWidth, window.innerHeight) * 0.666;
+
+    svg.setAttribute('width', size);
+    svg.setAttribute('height', size);
+
+    function map(value, low1, high1, low2, high2) {
+        return low2 + (high2 - low2) * (value - low1) / (high1 - low1);
+    }
+
+    for (var i = 0; i < size; i += 24) {
+        var color = Math.floor(Math.abs(Math.sin(map(i, 0, size, 0, Math.PI))) * 255);
+        var circle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+
+        circle.setAttribute('cx', size / 2);
+        circle.setAttribute('cy', size / 2);
+        circle.setAttribute('r', i / 2);
+        circle.setAttribute('fill', 'none');
+        circle.setAttribute('stroke-width', '6');
+        circle.setAttribute('stroke', 'hsl(' + color + ',20%,50%)');
+        svg.appendChild(circle);
+    }
+
+    document.getElementsByTagName('body')[0].appendChild(svg);
+</script>
+</body>
+</html>
