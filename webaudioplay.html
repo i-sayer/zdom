@@ -84,7 +84,7 @@ function draw()
   var h;
   analyser.getByteTimeDomainData(dataArray);
   bars.forEach((x,i)=>{
-    h = dataArray(i*8+8);
+    h = dataArray[i*8+8];
     x.style.height = h+"px";
   });
 }
