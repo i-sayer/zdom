@@ -63,8 +63,6 @@ audio.src = 'FromAge.mp3';
 audio.controls = true;
 audio.autoplay = true;
 document.body.appendChild(audio);
-source = audioCtx.createMediaStreamSource(audio);
-source.connect(analyser);
 
 analyser.fftSize = 512;
 var bufferLength = analyser.frequencyBinCount;
@@ -72,6 +70,13 @@ var dataArray = new Uint8Array(bufferLength);
 
 var bars = Array.from(document.querySelectorAll("#bargraf .bar"));
 
+  
+window.addEventListener('load', function(e) {
+  var source = context.createMediaElementSource(audio);
+  source.connect(analyser);
+  //analyser.connect(context.destination);
+  draw();
+}, false);
 debugger;
 function draw()
 {
@@ -83,8 +88,6 @@ function draw()
     x.style.height = h+"px";
   });
 }
-
-draw();
 </script>
 </body>
 </html>
