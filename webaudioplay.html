@@ -72,7 +72,7 @@ var bars = Array.from(document.querySelectorAll("#bargraf .bar"));
 
   
 window.addEventListener('load', function(e) {
-  var source = context.createMediaElementSource(audio);
+  var source = audioCtx.createMediaElementSource(audio);
   source.connect(analyser);
   //analyser.connect(context.destination);
   draw();
