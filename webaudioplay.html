@@ -58,8 +58,12 @@
 <script>
 var audioCtx = new (window.AudioContext || window.webkitAudioContext)();
 var analyser = audioCtx.createAnalyser();
-var stream = "http://homepages.vodafone.co.nz/~sayer7723/mp3/Eden.mp3";
-source = audioCtx.createMediaStreamSource(stream);
+var audio = new Audio();
+audio.src = 'FromAge.mp3';
+audio.controls = true;
+audio.autoplay = true;
+document.body.appendChild(audio);
+source = audioCtx.createMediaStreamSource(audio);
 source.connect(analyser);
 
 analyser.fftSize = 512;
