@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Web Audio Player</title>
+<style>
+#bargraf {
+  display:flex;
+  flex-flow: row nowrap;
+  align-items: flex-end;
+  width:268px;
+  height:180px;
+  position:relative;
+  background-color:black;
+  border:16px solid #000;
+  text-align: left;
+  box-sizing: border-box;
+}
+#bargraf::after {
+  content:"";
+  display:block;
+  position:absolute;
+  left:0;
+  width:100%;
+  height:100%;
+  /*background-color: rgba(255,0,0,0.75);*/
+  background-image: repeating-linear-gradient(90deg, rgba(0,0,0,1),rgba(0,0,0,1)2px,rgba(0,0,0,0)2px,rgba(0,0,0,0)12px,rgba(0,0,0,1)12px,rgba(0,0,0,1)16px), repeating-linear-gradient(rgba(0,0,0,1), rgba(0,0,0,1) 1px, rgba(0,0,0,0) 3px, rgba(0,0,0,0) 8px, rgba(0,0,0,1) 10px),
+    linear-gradient(rgba(255,0,0,0.4),rgba(255,0,0,0.3) 30px,rgba(255,128,0,0.3) 30px,rgba(255,128,0,0.4) 60px,rgba(0,255,0,0.3) 60px, rgba(0,255,0,0.5) 100%);
+}
+.bar {
+  display:inline-block;
+  width:16px;
+  height:100%;
+  margin:0 0;
+  padding:0;
+  background-color:#ccc;
+}
+</style>
+<head>
+<body>
+<div id='bargraf'>
+  <div class='bar'></div>
+  <div class='bar'></div>
+  <div class='bar'></div>
+  <div class='bar'></div>
+  <div class='bar'></div>
+  <div class='bar'></div>
+  <div class='bar'></div>
+  <div class='bar'></div>
+  <div class='bar'></div>
+  <div class='bar'></div>
+  <div class='bar'></div>
+  <div class='bar'></div>
+  <div class='bar'></div>
+  <div class='bar'></div>
+  <div class='bar'></div>
+  <div class='bar'></div>
+</div>
+<script>
+var audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+var analyser = audioCtx.createAnalyser();
+var stream = "http://homepages.vodafone.co.nz/~sayer7723/mp3/Eden.mp3";
+source = audioCtx.createMediaStreamSource(stream);
+source.connect(analyser);
+
+analyser.fftSize = 512;
+var bufferLength = analyser.frequencyBinCount;
+var dataArray = new Uint8Array(bufferLength);
+
+var bars = Array.from(document.querySelectorAll("#bargraf .bar"));
+
+debugger;
+function draw()
+{
+  requestAnimationFrame(draw);
+  var h;
+  analyser.getByteTimeDomainData(dataArray);
+  bars.forEach((x,i)=>{
+    h = dataArray(i*8+8);
+    x.style.height = h+"px";
+  });
+}
+
+draw();
+</script>
+</body>
+</html>
