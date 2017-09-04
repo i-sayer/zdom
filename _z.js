@@ -18,6 +18,7 @@ var _z = (function ()
         var retval = document.createDocumentFragment();
         var fr = str.match(/(^[^>+]+|[>+]+[^>+]+)/g); // list of (node) (+sibbling) (>child)
         var curlev = retval;
+        var tmp;
         for (var i = 0, f; f = fr[i]; i++)
         {
             var ename, p, sub = f.match(/(\W*[\w| |\-|\\|=)|:]+)/g);
@@ -33,7 +34,14 @@ var _z = (function ()
                 ename = ename.substr(1);
             }
             var ena = ename.split(":");
-            p = (ena.length > 1) ? document.createElementNS(ena[0],ename) : document.createElement(ename);
+            //p = (ena.length > 1) ? document.createElementNS(ena[0],ename) : document.createElement(ename);
+            if (ena.length > 1) {
+                if (ena[0] == "svg") {
+                    p = document.createElementNS("http://www.w3.org/2000/svg", ena[1]);
+                } else
+                    p = document.createElementNS(ena[0], ename);
+            } else
+                p = document.createElement(ename);
             var classes = [];
             for (var j = 1, s = sub[0].substr(1); (j < sub.length) && (s = sub[j]) ; j++)
             {

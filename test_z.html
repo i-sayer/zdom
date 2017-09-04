@@ -106,7 +106,7 @@
                 if (sec[0] == '/')
                     level-=2;
             });
-            return out.join(">\n").replace(/<([a-z][a-z]*)\b[^>]*>\s*<\/\1>/g, '<$1/>');
+            return out.join(">\n").replace(/<([a-z][a-z]*)(\b[^>]*)>\s*<\/\1>/g, '<$1$2 />');
         }
 
         document.querySelector("div.wrapp").appendChild(_z.dom("h1^zdom"));
@@ -119,6 +119,7 @@
         [
             { n: "mathMl 1", v: "math>mrow>mfrac>mrow>mi^x+mo&2b+msup>mi^y+mn^2+++mrow>mi^k+mo&2b+mn^1" },
             { n: "mathMl 2", v: "math>mover^accent=true>mrow>mi^x+mo&2b+mi^y+mo&2b+mi^z++mo&23de" },
+            { n: "svg", v:"svg:svg>svg:circle^cx=100^cy=80^r=60^fill=red" },
             { n: "a menu", v:"ul#leftnav>li.menuItem>a^href= ^target=_blank^Menu Item*p4"},
             { n: "table", v: "table#mytable>thead>tr>th^heading*3+++tbody>tr>td^text*3p5" }
         ].forEach(function (x) {
