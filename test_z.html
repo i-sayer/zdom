@@ -91,7 +91,7 @@
         <img src="images/d2.png">
         <img src="images/d3.png">
     </div>
-    <div>
+<div>
     <math xmlns:mml="http://www.w3.org/1998/Math/MathML" xmlns:m="http://schemas.openxmlformats.org/officeDocument/2006/math"><mi>x</mi><mo>=</mo><mfrac><mrow><mo>-</mo><mi>b</mi><mo>±</mo><msqrt><msup><mrow><mi>b</mi></mrow><mrow><mn>2</mn></mrow></msup><mo>-</mo><mn>4</mn><mi>a</mi><mi>c</mi></msqrt></mrow><mrow><mn>2</mn><mi>a</mi></mrow></mfrac></math>
 </div>
     <script>
@@ -111,7 +111,59 @@
             });
             return out.join(">\n").replace(/<([a-z][a-z]*)(\b[^>]*)>\s*<\/\1>/g, '<$1$2 />');
         }
+        /**
+        @description add json to stylesheet, simple way no auto prefix !ALWAYS USE UNITS or regex may not work
+        @parameter object containing selectors and rules
+        */
+        function addcss(ob) {
+            var mapc = { "},":"}\n","\"": "" };
+            var style = document.createElement("style");
+            document.head.appendChild(style);
+            var t = JSON.stringify(ob).replace(/\"\,/g, ";").replace(/\}\,|\"/g, xmap).slice(1, -1).replace(/\:\{/g, " {");
+            style.appendChild(document.createTextNode(t));
+        }
+        function xmap(x) {
+            var mapc = { "},": "}\n", "\"": "" };
+            var m = mapc[x];
+            if (m === undefined)
+                m = x;
+            return m;
+        }
+        function makeSpinner(message) {
+            addcss({
+                ".balls": {
+                    "position": "absolute",
+                    "left": "50%",
+                    "top": "50%",
+                    "background-image": "radial-gradient(circle, rgba(255,255,255,0.9) 35%, rgba(255,255,255,0) 65%)",
+                    "transform": "translateY(-50%) translateX(-50%)"
+                },
+                ".balls svg path": {
+                    "fill": "none",
+                    "stroke": "currentColor",
+                    "stroke-width": "16",
+                    "stroke-dasharray": "471.3054504394531",
+                    "transition": "stroke-dasharray 0.25s ease-in-out",
+                    "stroke-linecap": "round"
+                },
+                ".balls.spin svg path": {
+                    "stroke-dasharray": "3.272954516940646 36.00249968634711",
+                    "animation": "spin 0.75s linear infinite"
+                },
+                ".balls svg": { "width": "100%" },
+                "@keyframes spin": { to: { "stroke-dashoffset": "39.27545420328775" } }
+            });
+            var elem = _z.dom("div.balls.spin>svg:svg^viewBox=0 0 200 200>svg:path^d=M100 100m -75 0a 75 75 0 1 0 150 0a 75 75 0 1 0 -150 0"
+                + "+svg:text^x=100^y=100;0;1", [message, { "text-anchor": "middle", "alignment-baseline": "middle" }]);
 
+            elem.setMessage = function (message) {elem.querySelector("text").textContent=message};
+
+            return elem;
+        }
+        var spin1 = makeSpinner("Two seconds");
+        window.setTimeout(function (e) { spin1.setMessage("OK!"); spin1.classList.remove("spin") }, 2000);
+        spin1.onclick = function (e) {this.classList.toggle("spin")};
+        document.body.appendChild(spin1);
         document.querySelector("div.wrapp").appendChild(_z.dom("h1^zdom"));
         var frm = document.body.appendChild(_z.dom("div#eon.container>div.row>section.col-md-6>h3^About++div.col-md-6>section>h3^xml workbook link"));
         frm.lastChild.firstChild.appendChild(_z.dom("p^Type your selector text and press Evaluate>hr+select#examples>option^examples++textarea.col-md-max#selectorText+button#evalButton^Evaluate"));
