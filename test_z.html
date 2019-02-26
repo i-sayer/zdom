@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <title>_z test</title>
-    <script src="https://i-sayer.github.io/zdom/_z.js"></script>
+    <script src="_z.js"></script>
     <script>window.MathJax = { MathML: { extensions: ["mml3.js", "content-mathml.js"]}};</script>
     <script type="text/javascript" async src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=MML_HTMLorMML"></script>
     <link rel="stylesheet" href="grid.css" />
@@ -10,7 +10,10 @@
     @import url("https://fonts.googleapis.com/css?family=Roboto+Condensed");
     body {
         font-family:'Roboto Condensed', sans-serif;
-        margin:0
+        margin:0;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        grid-template-rows: auto;
     }
     html {
     background: #f1f1f1;
@@ -132,11 +135,9 @@
         function makeSpinner(message) {
             addcss({
                 ".balls": {
-                    "position": "absolute",
-                    "left": "50%",
-                    "top": "50%",
+                    "height: 120px",
+                    "width: 120px",
                     "background-image": "radial-gradient(circle, rgba(255,255,255,0.9) 35%, rgba(255,255,255,0) 65%)",
-                    "transform": "translateY(-50%) translateX(-50%)"
                 },
                 ".balls svg path": {
                     "fill": "none",
