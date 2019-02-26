@@ -12,7 +12,7 @@
         font-family:'Roboto Condensed', sans-serif;
         margin:0;
         display: grid;
-        grid-template-columns: 1fr 1fr;
+        grid-template-columns: 1fr 1fr 1fr;
         grid-template-rows: auto;
     }
     html {
@@ -135,8 +135,9 @@
         function makeSpinner(message) {
             addcss({
                 ".balls": {
-                    "height": "120px",
-                    "width": "120px",
+                    "height": "140px",
+                    "width": "140px",
+                    "margin": "auto",
                     "background-image": "radial-gradient(circle, rgba(255,255,255,0.9) 35%, rgba(255,255,255,0) 65%)",
                 },
                 ".balls svg path": {
