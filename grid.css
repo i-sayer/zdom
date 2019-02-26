@@ -2,7 +2,7 @@
 */
 .container {    /* the self centering outer container element */
     padding: 0 15px;
-    margin: 0 auto;
+    grid-column: 1 / -1;
 }
 
 .row {          /* allows sections to form a single row on wider screens */
