@@ -1,3 +1,3 @@
 # zdom
 small js library for dom element creation based on zen coding syntax
-https://rawgit.com/i-sayer/zdom/master/test_z.html
+https://i-sayer.github.io/zdom/test_z.html
